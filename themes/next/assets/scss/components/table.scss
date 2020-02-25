@@ -76,6 +76,12 @@
                         vertical-align: top;
                         position: relative;
                     }
+                    &.next {
+                        svg {
+                            left: auto;
+                            right: -3px;
+                        }
+                    }
                     &.disabled {
                         cursor: not-allowed;
                         box-shadow: none;
@@ -117,6 +123,10 @@
                 padding-left: 12px;
                 padding-right: 12px;
             }
+            &.toggle {
+                width: 1%;
+                padding-right: 0;
+            }
         }
         thead {
             @include max(xs) {
@@ -137,6 +147,11 @@
                 &.sorting_asc,
                 &.sorting_desc {
                     cursor: pointer;
+                }
+            }
+            &.middle {
+                th {
+                    vertical-align: middle;
                 }
             }
         }
@@ -239,6 +254,37 @@
                     }
                     .strong-block {
                         display: block;
+                    }
+                    .plugin_error {
+                        border-radius: 6px;
+                        padding: 8px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        margin-top: 8px;
+                        background: var(--pale-light);
+                        border: 1px solid var(--border);
+                    }
+                    .tooltip-entry {
+                        .tooltip-circle {
+                            vertical-align: top;
+                            margin: 2px 0 0 0;
+                        }
+                    }
+                    &.inline-edit {
+                        .tooltip-circle {
+                            margin: 6px 2px 0 0;
+                        }
+                        & > div {
+                            display: inline-block;
+                            vertical-align: top;
+                        }
+                        span[data-editable='1'] {
+                            display: inline-block;
+                            vertical-align: top;
+                            line-height: 35px;
+                            cursor: pointer;
+                            font-weight: 500;
+                        }
                     }
                 }
                 th {

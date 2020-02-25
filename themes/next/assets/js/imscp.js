@@ -19,7 +19,8 @@ $(document).ready(function() {
     });
 
     let body = $('body'),
-        overlay = $('#overlay'),
+        overlaySelector = '#overlay',
+        overlay = $(overlaySelector),
         dialogOptions = (options, open, close, stay) => {
             return $.extend({}, {
                 draggable: false,
@@ -27,13 +28,17 @@ $(document).ready(function() {
                 resizable: false,
                 witdh: 'auto',
                 closeOnEscape: false,
-                appendTo: '#overlay',
+                appendTo: overlaySelector,
                 open(e) {
 
                     let elem = $(e.target).closest('.ui-dialog'),
                         max = (options.maxWidth) ? options.maxWidth : 380;
 
                     overlay.css('--max-width', max + 'px');
+
+                    if(options.appendTo && options.appendTo != overlaySelector) {
+                        $(this).parent().detach().appendTo(overlaySelector);
+                    }
 
                     $(e.target).removeAttr('style');
                     elem.removeAttr('style');
@@ -58,6 +63,9 @@ $(document).ready(function() {
                         if(!stay) {
                             elem.remove();
                         }
+                        if(options.appendTo && options.appendTo != overlaySelector) {
+                            $(this).parent().detach().appendTo(options.appendTo);
+                        }
                         if(close && typeof(close) === 'function') {
                             close(e, elem);
                         }
@@ -66,6 +74,8 @@ $(document).ready(function() {
                 }
             }, options);
         };
+
+    window.dialogOptions = dialogOptions;
 
     window.alert = (message, caption) => {
         $('<div>', {
@@ -203,6 +213,7 @@ $(document).ready(function() {
 
         dialog.dialog(dialogOptions({
             autoOpen: false,
+            appendTo: 'form',
             maxWidth: 692,
             buttons: [
                 {
@@ -342,10 +353,14 @@ $(document).ready(function() {
         dataTable = setDataTable($('.dataTable-static > table'), lang);
     }
 
+    if(typeof imscp_i18n.core.datatable !== 'undefined') {
+        let lang = (typeof imscp_i18n.core.datatable === 'object') ? imscp_i18n.core.datatable : JSON.parse(imscp_i18n.core.datatable);
+        dataTable = setDataTable($('.dataTable-static > table'), lang);
+    }
+
     $('[data-dataTable]').each(function() {
         let table = $(this),
             lang = $(this).data('dataTable');
-        console.log(lang);
         if(lang) {
             setDataTable(table, lang);
         }
@@ -358,7 +373,6 @@ $(document).ready(function() {
             stateSave: true,
             pagingType: 'simple',
             dom: '<"dataTable"<"toolbar"lf><t><"paginate"ip>>',
-            pagingType: 'simple',
             language: {
                 paginate: {
                     previous: '<i data-eva="chevron-left"></i>' + lang.paginate.previous,

@@ -34,6 +34,7 @@
         background: var(--pale-light);
         color: var(--text-light);
         cursor: not-allowed;
+        border-color: var(--line);
     }
     &.error {
         --border: var(--error);
@@ -166,6 +167,12 @@ textarea {
         &:hover {
             z-index: 2;
         }
+        &.grow-2 {
+            flex-grow: 2;
+        }
+        &.grow-3 {
+            flex-grow: 3;
+        }
     }
     .form-field {
         position: relative;
@@ -220,6 +227,9 @@ textarea {
         @include max(xxs) {
             margin-bottom: 16px;
         }
+        &:first-child {
+            margin-top: 0;
+        }
     }
     section {
         &.two-columns {
@@ -270,7 +280,7 @@ textarea {
             @include min(sm) {
                 display: grid;
                 align-items: start;
-                grid-gap: 16px;
+                grid-gap: 0 16px;
                 grid-template-columns: 36% minmax(0, 1fr);
                 min-height: 47px;
                 & > label {
